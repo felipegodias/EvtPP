@@ -37,6 +37,7 @@ namespace EvtPP
     }
 
     template <typename Ty, typename ... ArgTys>
+    requires std::constructible_from<Ty, ArgTys...>
     void EventBus::Fire(ArgTys&&... args)
     {
         Fire(std::move(Ty(std::forward<ArgTys>(args)...)));

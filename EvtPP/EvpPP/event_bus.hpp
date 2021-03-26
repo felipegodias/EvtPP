@@ -1,6 +1,7 @@
 #pragma once
 #include <queue>
 #include <unordered_map>
+#include <concepts>
 
 #include "basic_fire_request.hpp"
 #include "event_handler.hpp"
@@ -26,8 +27,9 @@ namespace EvtPP
         template <typename Ty>
         void Fire(Ty event);
 
-        template <typename Ty, typename ... ArgTy>
-        void Fire(ArgTy&& ... args);
+        template <typename Ty, typename ... ArgTys>
+        requires std::constructible_from<Ty, ArgTys...>
+        void Fire(ArgTys&& ... args);
 
     private:
         void ConsumeFireRequestsQueue();
