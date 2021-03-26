@@ -45,16 +45,24 @@ int main(int argc, char** argv)
 
 struct TestEvent
 {
+    TestEvent(const int a, const int b, const int c)
+        : a(a),
+          b(b),
+          c(c)
+    {
+    }
+
     int a;
     int b;
     int c;
 };
 
-class TestListener final : public EvtPP::EventListener<TestEvent>
+class TestListener final : public EvtPP::EventListener<TestEvent>, public EvtPP::EventListener<std::string>
 {
 public:
     explicit TestListener(EvtPP::EventBus& eventBus)
-        : EventListener<TestEvent>(eventBus)
+        : EventListener<TestEvent>(eventBus),
+          EventListener<std::string>(eventBus)
     {
     }
 
@@ -64,6 +72,14 @@ public:
     {
         std::cout << __FUNCSIG__ << std::endl;
         std::cout << event.a << ", " << event.b << ", " << event.c << std::endl;
+        std::cout << std::endl;
+    }
+
+
+    void OnReceiveEvent(const std::string& event) override
+    {
+        std::cout << __FUNCSIG__ << std::endl;
+        std::cout << event << std::endl;
         std::cout << std::endl;
     }
 };
@@ -83,6 +99,7 @@ int main(int argc, char** argv)
     {
         TestListener testListener(eventBus);
         eventBus.Fire<TestEvent>(1, 2, 3);
+        eventBus.Fire<std::string>("Hello World!");
     }
     eventBus.Fire<TestEvent>(1, 2, 3);
 
