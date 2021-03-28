@@ -1,6 +1,6 @@
 #pragma once
 #include <functional>
-#include "event_listener.hpp"
+#include "EventListener.hpp"
 
 namespace EvtPP
 {
@@ -24,4 +24,4 @@ namespace EvtPP
     };
 }
 
-#include "inl/function_event_listener.inl.hpp"
+#include "Internal/FunctionEventListener.inl"

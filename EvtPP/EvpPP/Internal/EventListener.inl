@@ -1,6 +1,6 @@
 #pragma once
-#include "../event_listener.hpp"
-#include "../event_bus.hpp"
+#include "EvpPP/EventBus.hpp"
+#include "EvpPP/EventListener.hpp"
 
 namespace EvtPP
 {

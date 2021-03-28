@@ -3,7 +3,6 @@
 namespace EvtPP
 {
     using EventTypeId = size_t;
-    using event_type_id = size_t;
 
     EventTypeId GetNextEventTypeId();
 
@@ -11,4 +10,4 @@ namespace EvtPP
     EventTypeId GetEventTypeId();
 }
 
-#include "inl/event_type_id.inl.hpp"
+#include "Internal/EventTypeId.inl"

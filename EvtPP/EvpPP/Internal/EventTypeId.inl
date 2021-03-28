@@ -1,5 +1,5 @@
 #pragma once
-#include "../event_type_id.hpp"
+#include "EvpPP/EventTypeId.hpp"
 
 namespace EvtPP
 {

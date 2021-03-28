@@ -1,11 +1,12 @@
 #pragma once
+#include "Interfaces/IEventListener.hpp"
 
 namespace EvtPP
 {
     class EventBus;
 
     template <typename Ty>
-    class EventListener
+    class EventListener : IEventListener<Ty>
     {
     public:
         explicit EventListener(EventBus& eventBus);
@@ -15,10 +16,10 @@ namespace EvtPP
         EventListener& operator=(EventListener&& other) noexcept;
         virtual ~EventListener() = 0;
 
-        virtual void OnReceiveEvent(const Ty& event) = 0;
+        void OnReceiveEvent(const Ty& event) override = 0;
     private:
         EventBus* _eventBus;
     };
 }
 
-#include "inl/event_listener.inl.hpp"
+#include "Internal/EventListener.inl"
