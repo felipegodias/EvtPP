@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
 
 add_executable(EvtPP.Tests
-    main.cpp
+    "Main.cpp"
+    "EventHandlerTestSuite.cpp"
 )
 
 find_package(GTest CONFIG REQUIRED)

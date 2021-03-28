@@ -1,48 +1,12 @@
-#include <iostream>
-
-#include "EvpPP/evtpp.hpp"
 #include "gtest/gtest.h"
-
-/*
-class FooTest : public testing::Test
-{
-protected:
-    FooTest()
-    {
-    }
-
-    ~FooTest() override
-    {
-    }
-
-    void SetUp() override
-    {
-    }
-
-    void TearDown() override
-    {
-    }
-};
-
-TEST_F(FooTest, MethodBarDoesAbc)
-{
-    std::string a("123");
-    std::string b("123");
-    EXPECT_EQ(a, b);
-}
-
-TEST_F(FooTest, DoesXyz)
-{
-    EXPECT_EQ("abc", "abc");
-}
 
 int main(int argc, char** argv)
 {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
-*/
 
+/*
 struct TestEvent
 {
     TestEvent(const int a, const int b, const int c)
@@ -105,3 +69,4 @@ int main(int argc, char** argv)
 
     return 0;
 }
+*/
