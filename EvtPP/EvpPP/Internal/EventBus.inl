@@ -28,7 +28,14 @@ namespace EvtPP
     }
 
     template <typename Ty>
-    void EventBus::Fire(Ty event)
+    void EventBus::Fire(Ty& event)
+    {
+        const Ty& constEvent = event;
+        Fire(constEvent);
+    }
+
+    template <typename Ty>
+    void EventBus::Fire(const Ty& event)
     {
         using IEventHandler = IEventHandler<Ty>;
 
@@ -48,7 +55,7 @@ namespace EvtPP
     std::enable_if_t<std::is_constructible_v<Ty, ArgTys...>, void>
     EventBus::Fire(ArgTys&&... args)
     {
-        Fire(std::move(Ty(std::forward<ArgTys>(args)...)));
+        Fire(Ty(std::forward<ArgTys>(args)...));
     }
 
     inline size_t EventBus::GetListenersCount() const

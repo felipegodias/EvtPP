@@ -37,7 +37,10 @@ namespace EvtPP
         void Deregister(const IEventListener<Ty>& eventListener);
 
         template <typename Ty>
-        void Fire(Ty event);
+        void Fire(Ty& event);
+
+        template <typename Ty>
+        void Fire(const Ty& event);
 
         template <typename Ty, typename ... ArgTys>
         std::enable_if_t<std::is_constructible_v<Ty, ArgTys...>, void>
