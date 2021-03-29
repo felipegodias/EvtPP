@@ -1,5 +1,3 @@
-#pragma once
-
 #include "EvpPP/EvtPP.hpp"
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
