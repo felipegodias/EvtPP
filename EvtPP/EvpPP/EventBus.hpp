@@ -3,6 +3,7 @@
 #include <queue>
 #include <unordered_map>
 
+#include "EventHandlerFactory.hpp"
 #include "EventTypeId.hpp"
 #include "Common/Aliases.hpp"
 
@@ -15,6 +16,8 @@ namespace EvtPP
 
     template <typename Ty>
     class IEventHandler;
+
+    class EventHandlerFactory;
 
     class EventBus final
     {
@@ -55,6 +58,7 @@ namespace EvtPP
         IEventHandler<Ty>& FetchHandler();
 
     private:
+        EventHandlerFactory _eventHandlerFactory;
         EventHandlersByEventTypeId _handlers;
         FireQueue _fireQueue;
     };

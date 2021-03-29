@@ -3,6 +3,7 @@
 
 #include "EvpPP/EventBus.hpp"
 #include "EvpPP/EventHandler.hpp"
+#include "EvpPP/EventHandlerFactory.hpp"
 
 namespace EvtPP
 {
@@ -91,7 +92,7 @@ namespace EvtPP
             return *dynamic_cast<IEventHandler*>(it->second.get());
         }
 
-        auto eventHandler = std::make_unique<EventHandler>();
+        auto eventHandler = _eventHandlerFactory.Create<Ty>();
         IEventHandler* eventHandlerPtr = eventHandler.get();
         _handlers.emplace(eventTypeId, std::move(eventHandler));
         return *eventHandlerPtr;
