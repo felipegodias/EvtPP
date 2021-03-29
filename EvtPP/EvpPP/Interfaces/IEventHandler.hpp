@@ -10,6 +10,7 @@ namespace EvtPP
     class IEventHandler : public IEventHandlerBase
     {
     public:
+        using Event = Ty;
         using IEventListener = IEventListener<Ty>;
 
         IEventHandler() = default;
@@ -22,6 +23,6 @@ namespace EvtPP
         virtual void Register(IEventListener& eventListener) = 0;
         virtual void Deregister(const IEventListener& eventListener) = 0;
         virtual bool IsRegistered(const IEventListener& eventListener) = 0;
-        virtual void Fire(const Ty& event) = 0;
+        virtual void Fire(const Event& event) = 0;
     };
 }
