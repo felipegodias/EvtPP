@@ -2,7 +2,7 @@
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
 
-namespace EvtPP::Tests
+namespace EvtPP::Tests::Unit
 {
     struct MockEvent
     {

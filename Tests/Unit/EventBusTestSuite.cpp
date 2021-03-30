@@ -2,7 +2,7 @@
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
 
-namespace EvtPP::Tests
+namespace EvtPP::Tests::Unit
 {
     struct MockEvent1
     {
@@ -43,28 +43,34 @@ namespace EvtPP::Tests
         MOCK_METHOD(bool, IsRegistered, (const IEventListener& eventListener), (override));
         MOCK_METHOD(void, Fire, (const Event& event), (override));
     };
+
+    UPtr<MockEventHandler1> mockEventHandler1;
+    UPtr<MockEventHandler2> mockEventHandler2;
 }
 
 namespace EvtPP
 {
-    UPtr<Tests::MockEventHandler1> mockEventHandler1;
-    UPtr<Tests::MockEventHandler2> mockEventHandler2;
-
     template <>
-    UPtr<IEventHandler<Tests::MockEvent1>> EventHandlerFactory::Create() const
+    IEventHandler<Tests::Unit::MockEvent1>& EventHandlerContainer::FetchHandler()
     {
-        return std::move(mockEventHandler1);
+        return *Tests::Unit::mockEventHandler1;
     }
 
     template <>
-    UPtr<IEventHandler<Tests::MockEvent2>> EventHandlerFactory::Create() const
+    IEventHandler<Tests::Unit::MockEvent2>& EventHandlerContainer::FetchHandler()
     {
-        return std::move(mockEventHandler2);
+        return *Tests::Unit::mockEventHandler2;
     }
 }
 
-namespace EvtPP::Tests
+namespace EvtPP::Tests::Unit
 {
+    class MockEventHandlerContainer : public EventHandlerContainer
+    {
+    public:
+        MOCK_METHOD(EventHandlerContainer::EventHandlers, GetEventHandlers, (), (const, override));
+    };
+
     TEST(EventBusTestSuite, Register_WhenCalled_StandardCase)
     {
         // Setup
@@ -133,5 +139,29 @@ namespace EvtPP::Tests
 
         // Act
         eventBus.Fire<MockEvent1>();
+    }
+
+    TEST(EventBusTestSuite, GetListenersCount_WhenCalled_StandardCase)
+    {
+        // Setup
+        const auto handlerContainer = std::make_shared<MockEventHandlerContainer>();
+        const EventBus eventBus(handlerContainer);
+        mockEventHandler1 = std::make_unique<MockEventHandler1>();
+        mockEventHandler2 = std::make_unique<MockEventHandler2>();
+        const EventHandlerContainer::EventHandlers getEventHandlersResult = { mockEventHandler1.get(), mockEventHandler2.get() };
+        const size_t eventHandler1Expected = 1;
+        const size_t eventHandler2Expected = 1;
+        const size_t expected = eventHandler1Expected + eventHandler2Expected;
+
+        // Assert
+        EXPECT_CALL(*mockEventHandler1, GetListenersCount()).Times(testing::Exactly(1)).WillRepeatedly(testing::Return(eventHandler1Expected));
+        EXPECT_CALL(*mockEventHandler2, GetListenersCount()).Times(testing::Exactly(1)).WillRepeatedly(testing::Return(eventHandler2Expected));
+        EXPECT_CALL(*handlerContainer, GetEventHandlers).Times(testing::Exactly(1)).WillRepeatedly(testing::Return(getEventHandlersResult));
+
+        // Act
+        const size_t actual = eventBus.GetListenersCount();
+
+        // Assert
+        EXPECT_EQ(expected, actual);
     }
 }
