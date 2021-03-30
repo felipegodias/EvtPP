@@ -71,7 +71,7 @@ namespace EvtPP::Tests::Unit
         MOCK_METHOD(EventHandlerContainer::EventHandlers, GetEventHandlers, (), (const, override));
     };
 
-    TEST(EventBusTestSuite, Register_WhenCalled_StandardCase)
+    TEST(EventBusUnitTestSuite, Register_WhenCalled_StandardCase)
     {
         // Setup
         EventBus eventBus;
@@ -85,7 +85,7 @@ namespace EvtPP::Tests::Unit
         eventBus.Register(mockEventListener);
     }
 
-    TEST(EventBusTestSuite, Deregister_WhenCalled_StandardCase)
+    TEST(EventBusUnitTestSuite, Deregister_WhenCalled_StandardCase)
     {
         // Setup
         EventBus eventBus;
@@ -99,7 +99,7 @@ namespace EvtPP::Tests::Unit
         eventBus.Deregister(mockEventListener);
     }
 
-    TEST(EventBusTestSuite, Fire_WhenCalledWithExistingEvent_StandardCase)
+    TEST(EventBusUnitTestSuite, Fire_WhenCalledWithExistingEvent_StandardCase)
     {
         // Setup
         MockEvent1 mockEvent;
@@ -113,7 +113,7 @@ namespace EvtPP::Tests::Unit
         eventBus.Fire<MockEvent1>(mockEvent);
     }
 
-    TEST(EventBusTestSuite, Fire_WhenCalledFromArgs_StandardCase)
+    TEST(EventBusUnitTestSuite, Fire_WhenCalledFromArgs_StandardCase)
     {
         // Setup
         EventBus eventBus;
@@ -126,7 +126,7 @@ namespace EvtPP::Tests::Unit
         eventBus.Fire<MockEvent1>();
     }
 
-    TEST(EventBusTestSuite, Fire_WhenCalledToOneEvent_StandardCase)
+    TEST(EventBusUnitTestSuite, Fire_WhenCalledToOneEvent_StandardCase)
     {
         // Setup
         EventBus eventBus;
@@ -141,7 +141,7 @@ namespace EvtPP::Tests::Unit
         eventBus.Fire<MockEvent1>();
     }
 
-    TEST(EventBusTestSuite, GetListenersCount_WhenCalled_StandardCase)
+    TEST(EventBusUnitTestSuite, GetListenersCount_WhenCalled_StandardCase)
     {
         // Setup
         const auto handlerContainer = std::make_shared<MockEventHandlerContainer>();

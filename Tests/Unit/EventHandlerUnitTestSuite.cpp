@@ -14,7 +14,7 @@ namespace EvtPP::Tests::Unit
         MOCK_METHOD(void, OnReceiveEvent, (const MockEvent& event), (override));
     };
 
-    TEST(EventHandlerTestSuite, Register_WhenCalled_StandardCase)
+    TEST(EventHandlerUnitTestSuite, Register_WhenCalled_StandardCase)
     {
         // Setup
         MockEventListener mockEventListener;
@@ -29,7 +29,7 @@ namespace EvtPP::Tests::Unit
         EXPECT_EQ(expectedListenersCount, actualListenersCount);
     }
 
-    TEST(EventHandlerTestSuite, Register_WhenCalledTwiceForSameObject_MustThrowRuntimeError)
+    TEST(EventHandlerUnitTestSuite, Register_WhenCalledTwiceForSameObject_MustThrowRuntimeError)
     {
         // Setup
         MockEventListener mockEventListener;
@@ -40,7 +40,7 @@ namespace EvtPP::Tests::Unit
         EXPECT_THROW(eventHandler.Register(mockEventListener), std::runtime_error);
     }
 
-    TEST(EventHandlerTestSuite, Deregister_WhenCalled_StandardCase)
+    TEST(EventHandlerUnitTestSuite, Deregister_WhenCalled_StandardCase)
     {
         // Setup
         MockEventListener mockEventListener;
@@ -56,7 +56,7 @@ namespace EvtPP::Tests::Unit
         EXPECT_EQ(expectedListenersCount, actualListenersCount);
     }
 
-    TEST(EventHandlerTestSuite, Deregister_WhenCalledForUnregisteredObject_MustThrowRuntimeError)
+    TEST(EventHandlerUnitTestSuite, Deregister_WhenCalledForUnregisteredObject_MustThrowRuntimeError)
     {
         // Setup
         const MockEventListener mockEventListener;
@@ -66,7 +66,7 @@ namespace EvtPP::Tests::Unit
         EXPECT_THROW(eventHandler.Deregister(mockEventListener), std::runtime_error);
     }
 
-    TEST(EventHandlerTestSuite, IsRegistered_WhenCalledWithRegisteredObject_MustReturnTrue)
+    TEST(EventHandlerUnitTestSuite, IsRegistered_WhenCalledWithRegisteredObject_MustReturnTrue)
     {
         // Setup
         MockEventListener mockEventListener;
@@ -81,7 +81,7 @@ namespace EvtPP::Tests::Unit
         EXPECT_EQ(expected, actual);
     }
 
-    TEST(EventHandlerTestSuite, IsRegistered_WhenCalledWithUnregisteredObject_MustReturnFalse)
+    TEST(EventHandlerUnitTestSuite, IsRegistered_WhenCalledWithUnregisteredObject_MustReturnFalse)
     {
         // Setup
         const MockEventListener mockEventListener;
@@ -95,7 +95,7 @@ namespace EvtPP::Tests::Unit
         EXPECT_EQ(expected, actual);
     }
 
-    TEST(EventHandlerTestSuite, Fire_WhenCalled_StandardCase)
+    TEST(EventHandlerUnitTestSuite, Fire_WhenCalled_StandardCase)
     {
         // Setup
         MockEventListener mockEventListener;
@@ -110,7 +110,7 @@ namespace EvtPP::Tests::Unit
         eventHandler.Fire(mockEvent);
     }
 
-    TEST(EventHandlerTestSuite, Fire_CalledWhenHaveNoListeners_MustDoNothing)
+    TEST(EventHandlerUnitTestSuite, Fire_CalledWhenHaveNoListeners_MustDoNothing)
     {
         // Setup
         const MockEvent mockEvent;
