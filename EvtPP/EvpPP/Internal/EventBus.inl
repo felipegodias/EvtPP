@@ -1,22 +1,18 @@
 #pragma once
-#include <cassert>
-
 #include "EvpPP/EventBus.hpp"
 #include "EvpPP/EventHandler.hpp"
-#include "EvpPP/EventHandlerFactory.hpp"
 
 namespace EvtPP
 {
-    inline EventBus::~EventBus()
+    inline EventBus::EventBus(SPtr<EventHandlerContainer> handlers) : _handlers(std::move(handlers))
     {
-        assert(GetListenersCount() == 0);
     }
 
     template <typename Ty>
     void EventBus::Register(IEventListener<Ty>& eventListener)
     {
         using IEventHandler = IEventHandler<Ty>;
-        IEventHandler& handler = FetchHandler<Ty>();
+        IEventHandler& handler = _handlers->FetchHandler<Ty>();
         handler.Register(eventListener);
     }
 
@@ -24,7 +20,7 @@ namespace EvtPP
     void EventBus::Deregister(const IEventListener<Ty>& eventListener)
     {
         using IEventHandler = IEventHandler<Ty>;
-        IEventHandler& handler = FetchHandler<Ty>();
+        IEventHandler& handler = _handlers->FetchHandler<Ty>();
         handler.Deregister(eventListener);
     }
 
@@ -42,7 +38,7 @@ namespace EvtPP
 
         _fireQueue.push([&]()
         {
-            IEventHandler& handler = FetchHandler<Ty>();
+            IEventHandler& handler = _handlers->FetchHandler<Ty>();
             handler.Fire(event);
         });
 
@@ -62,9 +58,9 @@ namespace EvtPP
     inline size_t EventBus::GetListenersCount() const
     {
         size_t listenersCount = 0;
-        for (const auto& kvp : _handlers)
+        for (const auto& eventHandler : _handlers->GetEventHandlers())
         {
-            listenersCount += kvp.second->GetListenersCount();
+            listenersCount += eventHandler->GetListenersCount();
         }
         return listenersCount;
     }
@@ -77,24 +73,5 @@ namespace EvtPP
             _fireQueue.pop();
             function();
         }
-    }
-
-    template <typename Ty>
-    IEventHandler<Ty>& EventBus::FetchHandler()
-    {
-        using IEventHandler = IEventHandler<Ty>;
-        using EventHandler = EventHandler<Ty>;
-
-        const EventTypeId eventTypeId = GetEventTypeId<Ty>();
-        const auto it = _handlers.find(eventTypeId);
-        if (it != _handlers.end())
-        {
-            return *dynamic_cast<IEventHandler*>(it->second.get());
-        }
-
-        auto eventHandler = _eventHandlerFactory.Create<Ty>();
-        IEventHandler* eventHandlerPtr = eventHandler.get();
-        _handlers.emplace(eventTypeId, std::move(eventHandler));
-        return *eventHandlerPtr;
     }
 }

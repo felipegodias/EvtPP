@@ -3,35 +3,23 @@
 #include <queue>
 #include <unordered_map>
 
-#include "EventHandlerFactory.hpp"
-#include "EventTypeId.hpp"
 #include "Common/Aliases.hpp"
+#include "EventHandlerContainer.hpp"
 
 namespace EvtPP
 {
     template <typename Ty>
     class IEventListener;
 
-    class IEventHandlerBase;
-
-    template <typename Ty>
-    class IEventHandler;
-
     class EventHandlerFactory;
 
     class EventBus final
     {
     public:
-        using EventHandlersByEventTypeId = std::unordered_map<EventTypeId, UPtr<IEventHandlerBase>>;
         using FireFunction = std::function<void()>;
         using FireQueue = std::queue<FireFunction>;
 
-        EventBus() = default;
-        EventBus(const EventBus& other) = default;
-        EventBus(EventBus&& other) noexcept = default;
-        EventBus& operator=(const EventBus& other) = default;
-        EventBus& operator=(EventBus&& other) noexcept = default;
-        ~EventBus();
+        explicit EventBus(SPtr<EventHandlerContainer> handlers = std::make_shared<EventHandlerContainer>());
 
         template <typename Ty>
         void Register(IEventListener<Ty>& eventListener);
@@ -54,12 +42,8 @@ namespace EvtPP
     private:
         void ConsumeFireQueue();
 
-        template <typename Ty>
-        IEventHandler<Ty>& FetchHandler();
-
     private:
-        EventHandlerFactory _eventHandlerFactory;
-        EventHandlersByEventTypeId _handlers;
+        SPtr<EventHandlerContainer> _handlers;
         FireQueue _fireQueue;
     };
 }
