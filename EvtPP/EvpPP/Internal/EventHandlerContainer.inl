@@ -28,9 +28,10 @@ namespace EvtPP
     {
         EventHandlers result(_handlers.size());
 
+        size_t i = 0;
         for (const auto& kvp : _handlers)
         {
-            result.push_back(kvp.second.get());
+            result[i++] = kvp.second.get();
         }
 
         return result;
