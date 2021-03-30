@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 add_executable(EvtPP.Tests
     "Main.cpp"
+    "Intergration/EventBusIntegrationTestSuite.cpp"
     "Unit/EventHandlerUnitTestSuite.cpp"
     "Unit/EventBusUnitTestSuite.cpp"
 )
