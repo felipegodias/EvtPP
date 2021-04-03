@@ -1,7 +1,6 @@
 #pragma once
 #include <functional>
 #include <queue>
-#include <unordered_map>
 
 #include "Common/Aliases.hpp"
 #include "EventHandlerContainer.hpp"
