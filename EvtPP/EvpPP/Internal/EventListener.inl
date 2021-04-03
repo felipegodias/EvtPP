@@ -69,9 +69,4 @@ namespace EvtPP
     {
         _eventBus->Deregister(*this);
     }
-
-    template <typename Ty>
-    void EventListener<Ty>::OnReceiveEvent(const Ty& event)
-    {
-    }
 }

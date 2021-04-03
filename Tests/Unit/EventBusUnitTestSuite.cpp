@@ -18,9 +18,9 @@ namespace EvtPP::Tests::Unit
     {
     public:
         MOCK_METHOD(size_t, GetListenersCount, (), (const, override));
-        MOCK_METHOD(void, Register, (IEventListener& eventListener), (override));
-        MOCK_METHOD(void, Deregister, (const IEventListener& eventListener), (override));
-        MOCK_METHOD(bool, IsRegistered, (const IEventListener& eventListener), (override));
+        MOCK_METHOD(void, Register, (IEventListenerType& eventListener), (override));
+        MOCK_METHOD(void, Deregister, (const IEventListenerType& eventListener), (override));
+        MOCK_METHOD(bool, IsRegistered, (const IEventListenerType& eventListener), (override));
         MOCK_METHOD(void, Fire, (const Event& event), (override));
     };
 
@@ -38,9 +38,9 @@ namespace EvtPP::Tests::Unit
     {
     public:
         MOCK_METHOD(size_t, GetListenersCount, (), (const, override));
-        MOCK_METHOD(void, Register, (IEventListener& eventListener), (override));
-        MOCK_METHOD(void, Deregister, (const IEventListener& eventListener), (override));
-        MOCK_METHOD(bool, IsRegistered, (const IEventListener& eventListener), (override));
+        MOCK_METHOD(void, Register, (IEventListenerType& eventListener), (override));
+        MOCK_METHOD(void, Deregister, (const IEventListenerType& eventListener), (override));
+        MOCK_METHOD(bool, IsRegistered, (const IEventListenerType& eventListener), (override));
         MOCK_METHOD(void, Fire, (const Event& event), (override));
     };
 

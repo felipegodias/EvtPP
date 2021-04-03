@@ -8,7 +8,7 @@
 namespace EvtPP
 {
     template <typename Ty>
-    void EventHandler<Ty>::Register(IEventListener& eventListener)
+    void EventHandler<Ty>::Register(IEventListenerType& eventListener)
     {
         THROW_IF(IsRegistered(eventListener), "");
 
@@ -16,23 +16,23 @@ namespace EvtPP
     }
 
     template <typename Ty>
-    void EventHandler<Ty>::Deregister(const IEventListener& eventListener)
+    void EventHandler<Ty>::Deregister(const IEventListenerType& eventListener)
     {
         THROW_IF(!IsRegistered(eventListener), "");
 
-        std::replace(_listeners.begin(), _listeners.end(), const_cast<IEventListener*>(&eventListener),
-                     static_cast<IEventListener*>(nullptr));
+        std::replace(_listeners.begin(), _listeners.end(), const_cast<IEventListener<Event>*>(&eventListener),
+                     static_cast<IEventListener<Event>*>(nullptr));
         ++_dirtyListenersCount;
     }
 
     template <typename Ty>
-    bool EventHandler<Ty>::IsRegistered(const IEventListener& eventListener)
+    bool EventHandler<Ty>::IsRegistered(const IEventListenerType& eventListener)
     {
         return std::find(_listeners.begin(), _listeners.end(), &eventListener) != _listeners.end();
     }
 
     template <typename Ty>
-    void EventHandler<Ty>::Fire(const Ty& event)
+    void EventHandler<Ty>::Fire(const Event& event)
     {
         for (auto& listener : _listeners)
         {

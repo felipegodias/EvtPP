@@ -10,11 +10,10 @@ namespace EvtPP
         IEventHandlerBase(IEventHandlerBase&& other) noexcept = default;
         IEventHandlerBase& operator=(const IEventHandlerBase& other) = default;
         IEventHandlerBase& operator=(IEventHandlerBase&& other) noexcept = default;
-
-        virtual ~IEventHandlerBase() = 0
-        {
-        }
+        virtual ~IEventHandlerBase() = 0;
 
         virtual size_t GetListenersCount() const = 0;
     };
+
+    inline IEventHandlerBase::~IEventHandlerBase() = default;
 }

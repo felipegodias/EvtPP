@@ -9,8 +9,9 @@ namespace EvtPP
     class EventHandler final : public IEventHandler<Ty>
     {
     public:
-        using IEventListener = typename IEventHandler<Ty>::IEventListener;
-        using EventListeners = std::vector<IEventListener*>;
+        using Event = typename IEventHandler<Ty>::Event;
+        using IEventListenerType = typename IEventHandler<Ty>::IEventListenerType;
+        using EventListeners = std::vector<IEventListenerType*>;
 
         EventHandler() = default;
         EventHandler(const EventHandler& other) = default;
@@ -19,10 +20,10 @@ namespace EvtPP
         EventHandler& operator=(EventHandler&& other) noexcept = default;
         ~EventHandler() override = default;
 
-        void Register(IEventListener& eventListener) override;
-        void Deregister(const IEventListener& eventListener) override;
-        bool IsRegistered(const IEventListener& eventListener) override;
-        void Fire(const Ty& event) override;
+        void Register(IEventListenerType& eventListener) override;
+        void Deregister(const IEventListenerType& eventListener) override;
+        bool IsRegistered(const IEventListenerType& eventListener) override;
+        void Fire(const Event& event) override;
 
         size_t GetListenersCount() const override;
 

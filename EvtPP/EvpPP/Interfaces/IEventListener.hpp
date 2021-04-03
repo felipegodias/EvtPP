@@ -12,8 +12,11 @@ namespace EvtPP
         IEventListener(IEventListener&& other) noexcept = default;
         IEventListener& operator=(const IEventListener& other) = default;
         IEventListener& operator=(IEventListener&& other) noexcept = default;
-        ~IEventListener() override = default;
+        ~IEventListener() override = 0;
 
         virtual void OnReceiveEvent(const Ty& event) = 0;
     };
+
+    template <typename Ty>
+    IEventListener<Ty>::~IEventListener() = default;
 }
